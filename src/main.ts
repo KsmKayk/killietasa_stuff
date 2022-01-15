@@ -12,6 +12,20 @@ export function main(): void {
   Isaac.DebugString(`${MOD_NAME} initialized.`);
 }
 
+const STEAM_SALE = Isaac.GetItemIdByName("Steam Sale");
+const THE_MIND = Isaac.GetItemIdByName("The Mind");
+const BLACK_CANDLE = Isaac.GetItemIdByName("Black Candle");
+
 function postGameStarted() {
-  Isaac.DebugString("Callback triggered: MC_POST_GAME_STARTED");
+  if (Game().IsGreedMode() && Game().GetLevel().GetStage() === 1) {
+    const player = Isaac.GetPlayer(0);
+    player.AddCoins(20);
+    player.AddCollectible(STEAM_SALE);
+  }
+
+  if (!Game().IsGreedMode() && Game().GetLevel().GetStage() === 1) {
+    const player = Isaac.GetPlayer(0);
+    player.AddCollectible(THE_MIND);
+    player.AddCollectible(BLACK_CANDLE);
+  }
 }
