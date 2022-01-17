@@ -7,6 +7,7 @@ export function main(): void {
 
   // Set a callback function that corresponds to when a new run is started
   mod.AddCallback(ModCallbacks.MC_POST_GAME_STARTED, postGameStarted);
+  mod.AddCallback(ModCallbacks.MC_EVALUATE_CACHE, evaluateCache);
 
   // Print an initialization message to the "log.txt" file
   Isaac.DebugString(`${MOD_NAME} initialized.`);
@@ -27,5 +28,12 @@ function postGameStarted() {
     const player = Isaac.GetPlayer(0);
     player.AddCollectible(THE_MIND);
     player.AddCollectible(BLACK_CANDLE);
+  }
+}
+
+function evaluateCache() {
+  if (Game().GetLevel().GetStage() === 1) {
+    const player = Isaac.GetPlayer(0);
+    player.Luck = 15;
   }
 }
